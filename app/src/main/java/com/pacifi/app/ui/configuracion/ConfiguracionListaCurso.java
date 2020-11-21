@@ -1,12 +1,9 @@
 package com.pacifi.app.ui.configuracion;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -133,7 +130,6 @@ public class ConfiguracionListaCurso extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Toast.makeText(mainActivity, "Estamos en Curso", Toast.LENGTH_SHORT).show();
                     openFormDialog();
                 }
             });
@@ -141,9 +137,26 @@ public class ConfiguracionListaCurso extends Fragment {
         listarCursoApi(cursoApi);
     }
 
-
     public void openFormDialog() {
+        Bundle args = new Bundle();
+
+
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
+        cursoFormDialog.setArguments(args);
+
+        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
+    }
+
+    public void openEditFormDialog(String idCurso, String nombreCurso, String detalleCurso, String codigoCurso) {
+        Bundle args = new Bundle();
+        args.putString("idCurso", idCurso);
+        args.putString("nombreCurso", nombreCurso);
+        args.putString("detalleCurso", detalleCurso);
+        args.putString("codigoCurso", codigoCurso);
+
+        CursoFormDialog cursoFormDialog = new CursoFormDialog();
+        cursoFormDialog.setArguments(args);
+
         cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
     }
 
@@ -153,6 +166,13 @@ public class ConfiguracionListaCurso extends Fragment {
         MenuItem editar = menu.add("Editar");
         MenuItem eliminar = menu.add("Eliminar");
 
+        editar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                openEditFormDialog(curso.getId(), curso.getNombre(), curso.getDetalle(), curso.getCodigo());
+                return false;
+            }
+        });
 
         eliminar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -174,7 +194,7 @@ public class ConfiguracionListaCurso extends Fragment {
             @Override
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
                 cursoList = new ArrayList<Curso>(response.body());
-                Log.e("Cursos", cursoList.toString());
+
                 ArrayAdapter<Curso> adapter = new ArrayAdapter<Curso>(getActivity().getApplicationContext(), android.R.layout.simple_expandable_list_item_1, cursoList);
                 cursoListView.setAdapter(adapter);
             }

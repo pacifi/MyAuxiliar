@@ -30,6 +30,7 @@ public class CursoFormDialog extends AppCompatDialogFragment {
     private EditText nombreCurso;
     private EditText detalleCurso;
     private EditText codigoCurso;
+    private String idCurso;
 
     private Retrofit retrofit;
     CursoApi cursoApi;
@@ -45,6 +46,22 @@ public class CursoFormDialog extends AppCompatDialogFragment {
 
         retrofit = new AdapterRetrofit().getAdapter();
         cursoApi = retrofit.create(CursoApi.class);
+
+
+        nombreCurso = view.findViewById(R.id.edit_nombre_curso);
+        detalleCurso = view.findViewById(R.id.edit_detalle_curso);
+        codigoCurso = view.findViewById(R.id.edit_codigo_curso);
+
+        Bundle arguments = getArguments();
+        if (arguments.size() != 0) {
+            // Form Editar
+            nombreCurso.setText(arguments.getString("nombreCurso"));
+            detalleCurso.setText(arguments.getString("detalleCurso"));
+            codigoCurso.setText(arguments.getString("codigoCurso"));
+            idCurso = arguments.getString("idCurso");
+        }
+
+
         builder.setView(view)
                 .setTitle("Formulario Curso")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -59,17 +76,20 @@ public class CursoFormDialog extends AppCompatDialogFragment {
                         nombreCurso = view.findViewById(R.id.edit_nombre_curso);
                         detalleCurso = view.findViewById(R.id.edit_detalle_curso);
                         codigoCurso = view.findViewById(R.id.edit_codigo_curso);
-                        agregarUsuario(cursoApi, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+                        if (idCurso.isEmpty()) {
+                            editarCurso(cursoApi, idCurso, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+                        } else {
+                            agregarCurso(cursoApi, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+                        }
+
                         Toast.makeText(getActivity(), "Se Registro por completo.", Toast.LENGTH_SHORT).show();
                     }
                 });
-        nombreCurso = view.findViewById(R.id.edit_nombre_curso);
-        detalleCurso = view.findViewById(R.id.edit_detalle_curso);
-        codigoCurso = view.findViewById(R.id.edit_codigo_curso);
+
         return builder.create();
     }
 
-    public void agregarUsuario(final CursoApi api, String nombre, String detalle, String codigo) {
+    public void agregarCurso(final CursoApi api, String nombre, String detalle, String codigo) {
 
         Curso curso = new Curso();
         curso.setNombre(nombre);
@@ -91,6 +111,35 @@ public class CursoFormDialog extends AppCompatDialogFragment {
         });
     }
 
+    public void editarCurso(final CursoApi api, String idCurso, String nombre, String detalle, String codigo) {
+
+        Curso curso = new Curso();
+        curso.setNombre(nombre);
+        curso.setDetalle(detalle);
+        curso.setCodigo(codigo);
+        curso.setId(idCurso);
+
+        Call<Void> call = api.update(idCurso, curso);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 }
+
+// https://danielme.com/2018/05/13/diseno-android-formulario-en-alertdialog-con-fragment/
+// https://guides.codepath.com/android/using-dialogfragment
+
+// https://apassionatechie.wordpress.com/2017/12/18/listen-dialogfragment-dismiss-event-from-viewpager-fragment/
+// https://guides.codepath.com/android/using-dialogfragment
+// https://danielme.com/2018/05/13/diseno-android-formulario-en-alertdialog-con-fragment/
