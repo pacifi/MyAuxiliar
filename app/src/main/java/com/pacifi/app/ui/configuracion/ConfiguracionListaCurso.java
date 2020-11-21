@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +54,12 @@ public class ConfiguracionListaCurso extends Fragment {
     private List<Curso> cursoList = new ArrayList<>();
     private Retrofit retrofit;
     CursoApi cursoApi;
+
+    private FloatingActionButton fab_main, fab_add_curso, fab_upload_estudiantes;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
+    TextView textview_agregar_curso, textview_subir_estudiante;
+
+    Boolean isOpen = false;
 
 
     public ConfiguracionListaCurso() {
@@ -98,6 +107,15 @@ public class ConfiguracionListaCurso extends Fragment {
 
         retrofit = new AdapterRetrofit().getAdapter();
         cursoApi = retrofit.create(CursoApi.class);
+        fab_main = getView().findViewById(R.id.fab);
+        fab_add_curso = getView().findViewById(R.id.fab1);
+        fab_upload_estudiantes = getView().findViewById(R.id.fab2);
+        fab_close = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_close);
+        fab_open = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_open);
+        fab_clock = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_rotate_clock);
+        fab_anticlock = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_rotate_anticlock);
+        textview_agregar_curso = (TextView) getView().findViewById(R.id.textview_agregar_curso);
+        textview_subir_estudiante = (TextView) getView().findViewById(R.id.textview_subir_estudiante);
 
         cursoListView = (ListView) getView().findViewById(R.id.cursoListView);
         listarCursoApi(cursoApi);
@@ -111,30 +129,51 @@ public class ConfiguracionListaCurso extends Fragment {
                 return false;
             }
         });
-    }
 
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpen) {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null) {
-
-            mainActivity.showFloatingActionButton(); //fuerza la visibilidad
-
-            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
-
-            fab.setImageResource(R.drawable.ic_baseline_add_24); //Cambiar icono
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openFormDialog();
+                    textview_agregar_curso.setVisibility(View.INVISIBLE);
+                    textview_subir_estudiante.setVisibility(View.INVISIBLE);
+                    fab_upload_estudiantes.startAnimation(fab_close);
+                    fab_add_curso.startAnimation(fab_close);
+                    fab_main.startAnimation(fab_anticlock);
+                    fab_upload_estudiantes.setClickable(false);
+                    fab_add_curso.setClickable(false);
+                    isOpen = false;
+                } else {
+                    textview_subir_estudiante.setVisibility(View.VISIBLE);
+                    textview_agregar_curso.setVisibility(View.VISIBLE);
+                    fab_upload_estudiantes.startAnimation(fab_open);
+                    fab_add_curso.startAnimation(fab_open);
+                    fab_main.startAnimation(fab_clock);
+                    fab_upload_estudiantes.setClickable(true);
+                    fab_add_curso.setClickable(true);
+                    isOpen = true;
                 }
-            });
-        }
-        listarCursoApi(cursoApi);
+            }
+        });
+
+        fab_upload_estudiantes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.e("Boton", "Boton share");
+
+            }
+        });
+
+        fab_add_curso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openFormDialog();
+            }
+        });
+
+
     }
 
     public void openFormDialog() {

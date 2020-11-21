@@ -61,7 +61,6 @@ public class CursoFormDialog extends AppCompatDialogFragment {
             idCurso = arguments.getString("idCurso");
         }
 
-
         builder.setView(view)
                 .setTitle("Formulario Curso")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -73,12 +72,15 @@ public class CursoFormDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         nombreCurso = view.findViewById(R.id.edit_nombre_curso);
                         detalleCurso = view.findViewById(R.id.edit_detalle_curso);
                         codigoCurso = view.findViewById(R.id.edit_codigo_curso);
-                        if (idCurso.isEmpty()) {
+                        if (arguments.size() != 0) {
                             editarCurso(cursoApi, idCurso, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+
                         } else {
+
                             agregarCurso(cursoApi, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
                         }
 
