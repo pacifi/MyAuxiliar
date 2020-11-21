@@ -61,7 +61,6 @@ public class CursoFormDialog extends AppCompatDialogFragment {
             idCurso = arguments.getString("idCurso");
         }
 
-
         builder.setView(view)
                 .setTitle("Formulario Curso")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
