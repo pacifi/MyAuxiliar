@@ -55,9 +55,9 @@ public class ConfiguracionListaCurso extends Fragment {
     private Retrofit retrofit;
     CursoApi cursoApi;
 
-    private FloatingActionButton fab_main, fab1_mail, fab2_share;
+    private FloatingActionButton fab_main, fab_add_curso, fab_upload_estudiantes;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
-    TextView textview_mail, textview_share;
+    TextView textview_agregar_curso, textview_subir_estudiante;
 
     Boolean isOpen = false;
 
@@ -108,14 +108,14 @@ public class ConfiguracionListaCurso extends Fragment {
         retrofit = new AdapterRetrofit().getAdapter();
         cursoApi = retrofit.create(CursoApi.class);
         fab_main = getView().findViewById(R.id.fab);
-        fab1_mail = getView().findViewById(R.id.fab1);
-        fab2_share = getView().findViewById(R.id.fab2);
+        fab_add_curso = getView().findViewById(R.id.fab1);
+        fab_upload_estudiantes = getView().findViewById(R.id.fab2);
         fab_close = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_close);
         fab_open = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_open);
         fab_clock = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_rotate_clock);
         fab_anticlock = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_rotate_anticlock);
-        textview_mail = (TextView) getView().findViewById(R.id.textview_mail);
-        textview_share = (TextView) getView().findViewById(R.id.textview_share);
+        textview_agregar_curso = (TextView) getView().findViewById(R.id.textview_agregar_curso);
+        textview_subir_estudiante = (TextView) getView().findViewById(R.id.textview_subir_estudiante);
 
         cursoListView = (ListView) getView().findViewById(R.id.cursoListView);
         listarCursoApi(cursoApi);
@@ -135,28 +135,28 @@ public class ConfiguracionListaCurso extends Fragment {
             public void onClick(View v) {
                 if (isOpen) {
 
-                    textview_mail.setVisibility(View.INVISIBLE);
-                    textview_share.setVisibility(View.INVISIBLE);
-                    fab2_share.startAnimation(fab_close);
-                    fab1_mail.startAnimation(fab_close);
+                    textview_agregar_curso.setVisibility(View.INVISIBLE);
+                    textview_subir_estudiante.setVisibility(View.INVISIBLE);
+                    fab_upload_estudiantes.startAnimation(fab_close);
+                    fab_add_curso.startAnimation(fab_close);
                     fab_main.startAnimation(fab_anticlock);
-                    fab2_share.setClickable(false);
-                    fab1_mail.setClickable(false);
+                    fab_upload_estudiantes.setClickable(false);
+                    fab_add_curso.setClickable(false);
                     isOpen = false;
                 } else {
-                    textview_mail.setVisibility(View.VISIBLE);
-                    textview_share.setVisibility(View.VISIBLE);
-                    fab2_share.startAnimation(fab_open);
-                    fab1_mail.startAnimation(fab_open);
+                    textview_subir_estudiante.setVisibility(View.VISIBLE);
+                    textview_agregar_curso.setVisibility(View.VISIBLE);
+                    fab_upload_estudiantes.startAnimation(fab_open);
+                    fab_add_curso.startAnimation(fab_open);
                     fab_main.startAnimation(fab_clock);
-                    fab2_share.setClickable(true);
-                    fab1_mail.setClickable(true);
+                    fab_upload_estudiantes.setClickable(true);
+                    fab_add_curso.setClickable(true);
                     isOpen = true;
                 }
             }
         });
 
-        fab2_share.setOnClickListener(new View.OnClickListener() {
+        fab_upload_estudiantes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -165,11 +165,11 @@ public class ConfiguracionListaCurso extends Fragment {
             }
         });
 
-        fab1_mail.setOnClickListener(new View.OnClickListener() {
+        fab_add_curso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("Boton", "Boton Email");
 
+                openFormDialog();
             }
         });
 

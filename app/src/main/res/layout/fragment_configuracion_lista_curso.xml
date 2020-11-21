@@ -14,17 +14,17 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/textview_share"
+        android:id="@+id/textview_subir_estudiante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="186dp"
-        android:background="#000"
+        android:background="#212121"
         android:padding="8dp"
-        android:text="Share"
-        android:textColor="#000"
+        android:text="Subir Estudiantes"
+        android:textColor="#ffffff"
         android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -40,23 +40,23 @@
         android:elevation="16dp"
         android:focusable="true"
         android:visibility="invisible"
-        app:backgroundTint="#000"
+        app:backgroundTint="#ffffff"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_baseline_view_headline_24"
+        app:srcCompat="@drawable/ic_baseline_cloud_upload_24"
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
-        android:id="@+id/textview_mail"
+        android:id="@+id/textview_agregar_curso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="116dp"
-        android:background="#000"
+        android:background="#212121"
         android:padding="8dp"
-        android:text="Email"
-        android:textColor="#000"
+        android:text="Agregar Curso"
+        android:textColor="#ffffff"
         android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -74,7 +74,7 @@
         android:visibility="invisible"
         app:backgroundTint="#ffffff"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_baseline_view_headline_24"
+        app:srcCompat="@drawable/ic_baseline_add_24"
         tools:ignore="VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -94,4 +94,5 @@
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_baseline_view_headline_24"
         tools:ignore="VectorDrawableCompat" />
+    
 </RelativeLayout>
