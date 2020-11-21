@@ -1,6 +1,7 @@
 package com.pacifi.app.ui.configuracion;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -38,7 +39,7 @@ import retrofit2.Retrofit;
  * Use the {@link ConfiguracionListaCurso#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConfiguracionListaCurso extends Fragment  {
+public class ConfiguracionListaCurso extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -132,32 +133,25 @@ public class ConfiguracionListaCurso extends Fragment  {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mainActivity, "Estamos en Curso", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mainActivity, "Estamos en Curso", Toast.LENGTH_SHORT).show();
                     openFormDialog();
                 }
             });
         }
+        listarCursoApi(cursoApi);
     }
 
 
-    public void openFormDialog(){
+    public void openFormDialog() {
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
-
-
-
+        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-        menu.add("Matricular");
-        menu.add("Enviar un SMS");
-        menu.add("Visitar Sitio Web");
+        MenuItem editar = menu.add("Editar");
         MenuItem eliminar = menu.add("Eliminar");
-
-
-        menu.add("Ver en el mapa");
-        menu.add("Enviar un Email");
 
 
         eliminar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
