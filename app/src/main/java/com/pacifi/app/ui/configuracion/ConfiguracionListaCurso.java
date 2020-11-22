@@ -3,6 +3,7 @@ package com.pacifi.app.ui.configuracion;
 
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -234,7 +235,22 @@ public class ConfiguracionListaCurso extends Fragment {
             public void onResponse(Call<List<Curso>> call, Response<List<Curso>> response) {
                 cursoList = new ArrayList<Curso>(response.body());
 
-                ArrayAdapter<Curso> adapter = new ArrayAdapter<Curso>(getActivity().getApplicationContext(), android.R.layout.simple_expandable_list_item_1, cursoList);
+                ArrayAdapter<Curso> adapter = new ArrayAdapter<Curso>(getActivity().getApplicationContext(), android.R.layout.simple_expandable_list_item_1, cursoList) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        // Get the Item from ListView
+                        View view = super.getView(position, convertView, parent);
+
+                        // Initialize a TextView for ListView each Item
+                        TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                        // Set the text color of TextView (ListView Item)
+                        tv.setTextColor(Color.rgb(130,130,130));
+
+                        // Generate ListView Item using TextView
+                        return view;
+                    }
+                };
                 cursoListView.setAdapter(adapter);
             }
 
