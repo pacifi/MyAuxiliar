@@ -41,7 +41,7 @@ import retrofit2.Retrofit;
  * create an instance of this fragment.
  */
 //public class ConfiguracionListaCurso extends Fragment {
-public class ConfiguracionListaCurso extends Fragment implements CursoUploadDialog.UploadFormListener {
+public class ConfiguracionListaCurso extends Fragment implements CursoUploadDialog.CursoUploadDialogListener, CursoFormDialog.CursoFormDialogListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -191,8 +191,8 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
 
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
         cursoFormDialog.setArguments(args);
-
-        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
+        cursoFormDialog.setTargetFragment(ConfiguracionListaCurso.this, 1);
+        cursoFormDialog.show(getFragmentManager(), "Form curso");
     }
 
     public void openEditFormDialog(String idCurso, String nombreCurso, String detalleCurso, String codigoCurso) {
@@ -203,9 +203,10 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         args.putString("codigoCurso", codigoCurso);
 
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
+        cursoFormDialog.setTargetFragment(ConfiguracionListaCurso.this, 1);
         cursoFormDialog.setArguments(args);
 
-        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
+        cursoFormDialog.show(getFragmentManager(), "Form curso");
     }
 
     public void openDialogUpload() {
@@ -277,6 +278,53 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         });
     }
 
+    public void agregarCurso(final CursoApi api, String nombre, String detalle, String codigo) {
+
+        Curso curso = new Curso();
+        curso.setNombre(nombre);
+        curso.setDetalle(detalle);
+        curso.setCodigo(codigo);
+
+        Call<Void> call = api.add(curso);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                Toast.makeText(getActivity(), "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+                listarCursoApi(cursoApi);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+    }
+
+    public void editarCurso(final CursoApi api, String idCurso, String nombre, String detalle, String codigo) {
+
+        Curso curso = new Curso();
+        curso.setNombre(nombre);
+        curso.setDetalle(detalle);
+        curso.setCodigo(codigo);
+        curso.setId(idCurso);
+
+        Call<Void> call = api.update(idCurso, curso);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                listarCursoApi(cursoApi);
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+
+            }
+        });
+    }
+
     public void eliminarCursoApi(final CursoApi api, String id) {
         cursoList.clear();
         Call<Void> call = api.delete(id);
@@ -302,5 +350,15 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         Log.e("sssss", username);
         Log.e("sssss", password);
 
+    }
+
+    @Override
+    public void editarCursoListener(String idCurso, String nombre, String detalle, String codigo) {
+        editarCurso(cursoApi, idCurso, nombre, detalle, codigo);
+    }
+
+    @Override
+    public void agregarCursoListener(String nombre, String detalle, String codigo) {
+        agregarCurso(cursoApi, nombre, detalle, codigo);
     }
 }

@@ -22,7 +22,7 @@ public class CursoUploadDialog extends DialogFragment {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
-    public UploadFormListener listener;
+    public CursoUploadDialogListener listener;
 
 
     @NonNull
@@ -63,7 +63,7 @@ public class CursoUploadDialog extends DialogFragment {
         super.onAttach(context);
         try {
 
-            listener = (UploadFormListener) getTargetFragment();
+            listener = (CursoUploadDialogListener) getTargetFragment();
 
         } catch (ClassCastException e) {
             Log.e("errordddddddd", e.getMessage());
@@ -74,7 +74,7 @@ public class CursoUploadDialog extends DialogFragment {
     }
 
     //
-    public interface UploadFormListener {
+    public interface CursoUploadDialogListener {
         void applyTexts(String username, String password);
     }
 }

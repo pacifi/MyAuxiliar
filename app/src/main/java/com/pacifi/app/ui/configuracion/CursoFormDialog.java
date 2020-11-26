@@ -3,6 +3,7 @@ package com.pacifi.app.ui.configuracion;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 import com.pacifi.app.R;
 import com.pacifi.app.api.AdapterRetrofit;
@@ -25,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class CursoFormDialog extends AppCompatDialogFragment {
+public class CursoFormDialog extends DialogFragment {
 
     private EditText nombreCurso;
     private EditText detalleCurso;
@@ -34,6 +36,7 @@ public class CursoFormDialog extends AppCompatDialogFragment {
 
     private Retrofit retrofit;
     CursoApi cursoApi;
+    CursoFormDialogListener listener;
 
 
     @NonNull
@@ -77,65 +80,45 @@ public class CursoFormDialog extends AppCompatDialogFragment {
                         detalleCurso = view.findViewById(R.id.edit_detalle_curso);
                         codigoCurso = view.findViewById(R.id.edit_codigo_curso);
                         if (arguments.size() != 0) {
-                            editarCurso(cursoApi, idCurso, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+                            listener.editarCursoListener(idCurso, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
 
                         } else {
 
-                            agregarCurso(cursoApi, nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
+                            listener.agregarCursoListener(nombreCurso.getText().toString(), detalleCurso.getText().toString(), codigoCurso.getText().toString());
                         }
 
+
                         Toast.makeText(getActivity(), "Se Registro por completo.", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
         return builder.create();
     }
 
-    public void agregarCurso(final CursoApi api, String nombre, String detalle, String codigo) {
 
-        Curso curso = new Curso();
-        curso.setNombre(nombre);
-        curso.setDetalle(detalle);
-        curso.setCodigo(codigo);
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
 
-        Call<Void> call = api.add(curso);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            listener = (CursoFormDialogListener) getTargetFragment();
 
+        } catch (ClassCastException e) {
+            Log.e("errordddddddd", e.getMessage());
+            throw new ClassCastException(context.toString() +
+                    "must implement DialogUtilListener");
 
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
+        }
     }
 
-    public void editarCurso(final CursoApi api, String idCurso, String nombre, String detalle, String codigo) {
+    public interface CursoFormDialogListener {
 
-        Curso curso = new Curso();
-        curso.setNombre(nombre);
-        curso.setDetalle(detalle);
-        curso.setCodigo(codigo);
-        curso.setId(idCurso);
+        void agregarCursoListener(String nombre, String detalle, String codigo);
 
-        Call<Void> call = api.update(idCurso, curso);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+        void editarCursoListener(String idCurso, String nombre, String detalle, String codigo);
 
-
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
     }
-
 
 }
 
