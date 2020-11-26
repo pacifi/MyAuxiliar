@@ -40,7 +40,8 @@ import retrofit2.Retrofit;
  * Use the {@link ConfiguracionListaCurso#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConfiguracionListaCurso extends Fragment {
+//public class ConfiguracionListaCurso extends Fragment {
+public class ConfiguracionListaCurso extends Fragment implements CursoUploadDialog.CursoUploadDialogListener, CursoFormDialog.CursoFormDialogListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +56,9 @@ public class ConfiguracionListaCurso extends Fragment {
     private List<Curso> cursoList = new ArrayList<>();
     private Retrofit retrofit;
     CursoApi cursoApi;
+
+    private TextView text_username;
+    private TextView text_password;
 
     private FloatingActionButton fab_main, fab_add_curso, fab_upload_estudiantes;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
@@ -118,6 +122,10 @@ public class ConfiguracionListaCurso extends Fragment {
         textview_agregar_curso = (TextView) getView().findViewById(R.id.textview_agregar_curso);
         textview_subir_estudiante = (TextView) getView().findViewById(R.id.textview_subir_estudiante);
 
+        text_username = (TextView) getView().findViewById(R.id.text_username);
+        text_password = (TextView) getView().findViewById(R.id.text_password);
+
+
         cursoListView = (ListView) getView().findViewById(R.id.cursoListView);
         listarCursoApi(cursoApi);
         registerForContextMenu(cursoListView);
@@ -161,7 +169,7 @@ public class ConfiguracionListaCurso extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Log.e("Boton", "Boton share");
+                openDialogUpload();
 
             }
         });
@@ -183,8 +191,8 @@ public class ConfiguracionListaCurso extends Fragment {
 
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
         cursoFormDialog.setArguments(args);
-
-        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
+        cursoFormDialog.setTargetFragment(ConfiguracionListaCurso.this, 1);
+        cursoFormDialog.show(getFragmentManager(), "Form curso");
     }
 
     public void openEditFormDialog(String idCurso, String nombreCurso, String detalleCurso, String codigoCurso) {
@@ -195,9 +203,17 @@ public class ConfiguracionListaCurso extends Fragment {
         args.putString("codigoCurso", codigoCurso);
 
         CursoFormDialog cursoFormDialog = new CursoFormDialog();
+        cursoFormDialog.setTargetFragment(ConfiguracionListaCurso.this, 1);
         cursoFormDialog.setArguments(args);
 
-        cursoFormDialog.show(getActivity().getSupportFragmentManager(), "Form curso");
+        cursoFormDialog.show(getFragmentManager(), "Form curso");
+    }
+
+    public void openDialogUpload() {
+        CursoUploadDialog cursoUploadDialog = new CursoUploadDialog();
+        cursoUploadDialog.setTargetFragment(ConfiguracionListaCurso.this, 2);
+        cursoUploadDialog.show(getFragmentManager(), "Upload Form");
+
     }
 
     @Override
@@ -245,7 +261,7 @@ public class ConfiguracionListaCurso extends Fragment {
                         TextView tv = (TextView) view.findViewById(android.R.id.text1);
 
                         // Set the text color of TextView (ListView Item)
-                        tv.setTextColor(Color.rgb(130,130,130));
+                        tv.setTextColor(Color.rgb(130, 130, 130));
 
                         // Generate ListView Item using TextView
                         return view;
@@ -257,6 +273,53 @@ public class ConfiguracionListaCurso extends Fragment {
             @Override
             public void onFailure(Call<List<Curso>> call, Throwable t) {
                 Log.e("error api curso", t.getMessage());
+
+            }
+        });
+    }
+
+    public void agregarCurso(final CursoApi api, String nombre, String detalle, String codigo) {
+
+        Curso curso = new Curso();
+        curso.setNombre(nombre);
+        curso.setDetalle(detalle);
+        curso.setCodigo(codigo);
+
+        Call<Void> call = api.add(curso);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                Toast.makeText(getActivity(), "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+                listarCursoApi(cursoApi);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Error", t.getMessage());
+            }
+        });
+    }
+
+    public void editarCurso(final CursoApi api, String idCurso, String nombre, String detalle, String codigo) {
+
+        Curso curso = new Curso();
+        curso.setNombre(nombre);
+        curso.setDetalle(detalle);
+        curso.setCodigo(codigo);
+        curso.setId(idCurso);
+
+        Call<Void> call = api.update(idCurso, curso);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                listarCursoApi(cursoApi);
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Error", t.getMessage());
 
             }
         });
@@ -281,4 +344,21 @@ public class ConfiguracionListaCurso extends Fragment {
     }
 
 
+    @Override
+    public void applyTexts(String username, String password) {
+        text_username.setText(username);
+        Log.e("sssss", username);
+        Log.e("sssss", password);
+
+    }
+
+    @Override
+    public void editarCursoListener(String idCurso, String nombre, String detalle, String codigo) {
+        editarCurso(cursoApi, idCurso, nombre, detalle, codigo);
+    }
+
+    @Override
+    public void agregarCursoListener(String nombre, String detalle, String codigo) {
+        agregarCurso(cursoApi, nombre, detalle, codigo);
+    }
 }
