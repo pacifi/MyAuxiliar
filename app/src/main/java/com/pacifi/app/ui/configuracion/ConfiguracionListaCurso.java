@@ -3,8 +3,12 @@ package com.pacifi.app.ui.configuracion;
 
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -20,16 +24,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.pacifi.app.MainActivity;
+
 import com.pacifi.app.R;
 import com.pacifi.app.api.AdapterRetrofit;
 import com.pacifi.app.api.CursoApi;
 
 import com.pacifi.app.models.Curso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +67,9 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
 
     private TextView text_username;
     private TextView text_password;
+
+    private Uri uri;
+
 
     private FloatingActionButton fab_main, fab_add_curso, fab_upload_estudiantes;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
@@ -138,6 +149,7 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
                 return false;
             }
         });
+
 
         fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,12 +355,33 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         });
     }
 
+    public void subirCursoApi(final CursoApi api, File file) {
+        cursoList.clear();
+
+        RequestBody mFile = RequestBody.create(MediaType.parse("*/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", "Certs.csv", mFile);
+        RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), file.getName());
+        Call<Void> call = api.uploadFile(fileToUpload);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                Log.e("sssss", "Response");
+                listarCursoApi(cursoApi);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("sssss", t.getMessage());
+            }
+        });
+    }
+
 
     @Override
-    public void applyTexts(String username, String password) {
-        text_username.setText(username);
-        Log.e("sssss", username);
-        Log.e("sssss", password);
+    public void sendUpladFileListener(File file, String password) {
+
+        subirCursoApi(cursoApi, file);
 
     }
 
