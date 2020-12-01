@@ -31,7 +31,9 @@ import com.pacifi.app.api.CursoApi;
 
 import com.pacifi.app.models.Curso;
 
+
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,18 +59,12 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
     private ListView cursoListView;
     private Curso curso;
     private List<Curso> cursoList = new ArrayList<>();
     private Retrofit retrofit;
     CursoApi cursoApi;
-
-    private TextView text_username;
-    private TextView text_password;
-
-    private Uri uri;
 
 
     private FloatingActionButton fab_main, fab_add_curso, fab_upload_estudiantes;
@@ -103,10 +99,7 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
 
     }
 
@@ -132,9 +125,6 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         fab_anticlock = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_rotate_anticlock);
         textview_agregar_curso = (TextView) getView().findViewById(R.id.textview_agregar_curso);
         textview_subir_estudiante = (TextView) getView().findViewById(R.id.textview_subir_estudiante);
-
-        text_username = (TextView) getView().findViewById(R.id.text_username);
-        text_password = (TextView) getView().findViewById(R.id.text_password);
 
 
         cursoListView = (ListView) getView().findViewById(R.id.cursoListView);
@@ -222,8 +212,17 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
     }
 
     public void openDialogUpload() {
+        Bundle args = new Bundle();
+
+        ArrayList<String> cur = new ArrayList<String>();
+        for (Curso curs : cursoList) {
+            cur.add(curs.getCodigo());
+        }
+
+        args.putStringArrayList("cursos", cur);
         CursoUploadDialog cursoUploadDialog = new CursoUploadDialog();
         cursoUploadDialog.setTargetFragment(ConfiguracionListaCurso.this, 2);
+        cursoUploadDialog.setArguments(args);
         cursoUploadDialog.show(getFragmentManager(), "Upload Form");
 
     }
@@ -355,18 +354,17 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
         });
     }
 
-    public void subirCursoApi(final CursoApi api, File file) {
+    public void subirCursoApi(final CursoApi api, File file, String cursoCode) {
         cursoList.clear();
 
         RequestBody mFile = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", "Certs.csv", mFile);
         RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), file.getName());
-        Call<Void> call = api.uploadFile(fileToUpload);
+        Call<Void> call = api.uploadFile(fileToUpload, cursoCode);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
-                Log.e("sssss", "Response");
+                Toast.makeText(getActivity(), "Data importada", Toast.LENGTH_SHORT).show();
                 listarCursoApi(cursoApi);
             }
 
@@ -379,9 +377,9 @@ public class ConfiguracionListaCurso extends Fragment implements CursoUploadDial
 
 
     @Override
-    public void sendUpladFileListener(File file, String password) {
+    public void sendUpladFileListener(File file, String cursoCode) {
 
-        subirCursoApi(cursoApi, file);
+        subirCursoApi(cursoApi, file, cursoCode);
 
     }
 

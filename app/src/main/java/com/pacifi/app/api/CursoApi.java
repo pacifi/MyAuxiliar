@@ -35,5 +35,5 @@ public interface CursoApi {
 
     @Multipart
     @POST("configuracion/estudent/upload")
-    Call<Void> uploadFile(@Part MultipartBody.Part file);
+    Call<Void> uploadFile(@Part MultipartBody.Part file, @Part("curso") String name);
 }

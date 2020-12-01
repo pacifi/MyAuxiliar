@@ -8,26 +8,10 @@
     tools:context=".ui.configuracion.ConfiguracionListaCurso">
 
 
-    <TextView
-        android:id="@+id/text_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Username" />
-
-    <TextView
-        android:id="@+id/text_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_username"
-        android:gravity="center_horizontal"
-        android:text="Password" />
-
     <ListView
         android:id="@+id/cursoListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/text_password" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/textview_subir_estudiante"

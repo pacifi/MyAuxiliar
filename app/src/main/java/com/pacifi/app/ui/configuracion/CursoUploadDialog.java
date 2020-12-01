@@ -11,8 +11,12 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,8 +27,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.pacifi.app.MainActivity;
 import com.pacifi.app.R;
+import com.pacifi.app.models.Curso;
 
 import java.io.File;
+import java.util.List;
 
 public class CursoUploadDialog extends DialogFragment {
 
@@ -34,7 +40,8 @@ public class CursoUploadDialog extends DialogFragment {
     public CursoUploadDialogListener listener;
     File file;
     public static final int PICK_IMAGE = 100;
-
+    private Spinner spinnerCursos;
+    String cursoCode;
 
     @NonNull
     @Override
@@ -43,6 +50,27 @@ public class CursoUploadDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_configuracion_curso_upload, null);
+        Bundle arguments = getArguments();
+        List<String> cursoList = (List<String>) arguments.getStringArrayList("cursos");
+        spinnerCursos = (Spinner) view.findViewById(R.id.spinnerCursos);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, cursoList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCursos.setAdapter(adapter);
+
+        spinnerCursos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                cursoCode = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         builder.setView(view)
                 .setTitle("Upload")
@@ -55,9 +83,8 @@ public class CursoUploadDialog extends DialogFragment {
                 .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String password = "sdasdsa";
 
-                        listener.sendUpladFileListener(file, password);
+                        listener.sendUpladFileListener(file, cursoCode);
                     }
                 });
 
@@ -81,6 +108,7 @@ public class CursoUploadDialog extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        file = new File(data.getData().getPath());
         file = new File("/storage/emulated/0/Download/Certs.csv");
+        txt_pathShow.setText(file.getName());
         Log.e("Filllle", file.getAbsolutePath());
 
 
@@ -103,6 +131,6 @@ public class CursoUploadDialog extends DialogFragment {
 
     //
     public interface CursoUploadDialogListener {
-        void sendUpladFileListener(File file, String password);
+        void sendUpladFileListener(File file, String CursoCode);
     }
 }

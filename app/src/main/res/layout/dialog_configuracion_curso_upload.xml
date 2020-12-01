@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txt_path"
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerCursos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_filePick"
-        android:text="Dummy Text"
-        android:textSize="20dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btn_filePick"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Pick File"
 
         android:textColor="#fff"
         android:textSize="18sp" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/txt_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Select Image"
+        android:textSize="20dp" />
+
+</LinearLayout>
