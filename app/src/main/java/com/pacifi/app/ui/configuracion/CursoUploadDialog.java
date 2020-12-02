@@ -63,6 +63,7 @@ public class CursoUploadDialog extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 cursoCode = parent.getItemAtPosition(position).toString();
+
             }
 
             @Override
@@ -107,9 +108,9 @@ public class CursoUploadDialog extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        file = new File(data.getData().getPath());
-        file = new File("/storage/emulated/0/Download/Certs.csv");
+        String name = data.getData().getPath().split("/")[data.getData().getPath().split("/").length - 1];
+        file = new File("/storage/emulated/0/Download/" + name);
         txt_pathShow.setText(file.getName());
-        Log.e("Filllle", file.getAbsolutePath());
 
 
     }
