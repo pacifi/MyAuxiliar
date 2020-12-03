@@ -12,16 +12,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.pacifi.app.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.pacifi.app.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
     <fragment
         android:id="@+id/configuracionListaCurso"
         android:name="com.pacifi.app.ui.configuracion.ConfiguracionListaCurso"
@@ -33,4 +28,9 @@
         android:name="com.pacifi.app.ui.configuracion.ConfiguracionListaEstudiante"
         android:label="fragment_configuracion_lista_estudiante"
         tools:layout="@layout/fragment_configuracion_lista_estudiante" />
+    <fragment
+        android:id="@+id/asistenciaFragment"
+        android:name="com.pacifi.app.ui.asistencia.AsistenciaFragment"
+        android:label="fragment_asisntecia"
+        tools:layout="@layout/fragment_asistencia" />
 </navigation>

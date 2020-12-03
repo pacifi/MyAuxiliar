@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.configuracion.ConfiguracionListaCurso"
+    tools:context=".ui.asistencia.AsistenciaFragment"
     tools:ignore="ExtraText">
 
 
-    <ListView
-        android:id="@+id/cursoListView"
+    <!-- TODO: Update blank fragment layout -->
+    <WebView
+        android:id="@+id/web_asistencia"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/textview_subir_estudiante"
+        android:id="@+id/textview_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -23,12 +26,12 @@
         android:layout_marginBottom="186dp"
         android:background="#212121"
         android:padding="8dp"
-        android:text="Subir Estudiantes"
+        android:text="Other action"
         android:textColor="#ffffff"
         android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab2"
+        android:id="@+id/fab_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -46,7 +49,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
-        android:id="@+id/textview_agregar_curso"
+        android:id="@+id/textview_crear_asistencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -55,12 +58,12 @@
         android:layout_marginBottom="116dp"
         android:background="#212121"
         android:padding="8dp"
-        android:text="Agregar Curso"
+        android:text="Crear Asistencia"
         android:textColor="#ffffff"
         android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab1"
+        android:id="@+id/fab_crear_asistencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -78,7 +81,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_option_asistencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -94,5 +97,4 @@
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_baseline_view_headline_24"
         tools:ignore="VectorDrawableCompat" />
-
 </RelativeLayout>
