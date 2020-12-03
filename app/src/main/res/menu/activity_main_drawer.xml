@@ -15,9 +15,9 @@
             android:title="Asistencia" />
 
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_actividad"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="SMS" />
 
         <item
             android:id="@+id/configuracionListaCurso"
