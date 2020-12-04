@@ -170,7 +170,8 @@ public class ActividadFragment extends Fragment {
 
                 cursoList = new ArrayList<Curso>(response.body());
 
-                ArrayAdapter<Curso> adapter = new ArrayAdapter<Curso>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, cursoList);
+                ArrayAdapter<Curso> adapter = new ArrayAdapter<Curso>(getActivity().getApplicationContext(), R.layout.color_spinner, cursoList);
+
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCursos.setAdapter(adapter);
             }

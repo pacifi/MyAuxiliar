@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AdapterRetrofit {
     Retrofit retrofit;
-    public static final String DOMINIO = "http://192.168.1.50:8000/";
+    public static final String DOMINIO = "http://35.222.13.181/";
 
     public AdapterRetrofit() {
     }
