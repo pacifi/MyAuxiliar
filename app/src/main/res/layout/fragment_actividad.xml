@@ -10,13 +10,11 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinnerSelectCursos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp" />
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/listViewActividad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
