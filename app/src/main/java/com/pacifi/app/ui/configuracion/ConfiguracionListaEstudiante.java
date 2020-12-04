@@ -67,26 +67,5 @@ public class ConfiguracionListaEstudiante extends Fragment {
         return inflater.inflate(R.layout.fragment_configuracion_lista_estudiante, container, false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null) {
-
-            mainActivity.showFloatingActionButton(); //fuerza la visibilidad
-
-            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
-
-            fab.setImageResource(R.drawable.ic_baseline_view_headline_24); //Cambiar icono
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mainActivity, "Estamos en Estudiante", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 }

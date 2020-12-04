@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <WebView
+        android:id="@+id/web_form_actividad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--    <Spinner-->
+    <!--        android:id="@+id/spinnerCursoActividad"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--    <Spinner-->
+    <!--        android:id="@+id/SpinnerActividad"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextDate"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="date" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextTime"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="time" />-->
+
+</LinearLayout>

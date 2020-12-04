@@ -7,19 +7,25 @@
         android:id="@+id/edit_nombre_curso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre" />
+        android:autofillHints=""
+        android:hint="Nombre Curso"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_detalle_curso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_nombre_curso"
-        android:hint="Detalle" />
+        android:autofillHints=""
+        android:hint="Detalle"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_codigo_curso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_detalle_curso"
-        android:hint="Codigo" />
+        android:autofillHints=""
+        android:hint="Codigo"
+        android:inputType="textPersonName" />
 </RelativeLayout>
