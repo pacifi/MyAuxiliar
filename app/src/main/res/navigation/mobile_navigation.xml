@@ -33,4 +33,10 @@
         android:name="com.pacifi.app.ui.asistencia.AsistenciaFragment"
         android:label="Asistencia"
         tools:layout="@layout/fragment_asistencia" />
+
+    <fragment
+        android:id="@+id/reporteAsistenciaFragment"
+        android:name="com.pacifi.app.ui.reporte.ReporteAsistenciaFragment"
+        android:label="Reporte Asistencia"
+        tools:layout="@layout/fragment_reporte_asistencia" />
 </navigation>
