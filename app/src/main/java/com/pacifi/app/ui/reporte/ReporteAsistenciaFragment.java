@@ -14,11 +14,6 @@ import android.webkit.WebViewClient;
 import com.pacifi.app.R;
 import com.pacifi.app.api.AdapterRetrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReporteAsistenciaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ReporteAsistenciaFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
