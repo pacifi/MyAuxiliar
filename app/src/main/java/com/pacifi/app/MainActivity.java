@@ -1,11 +1,18 @@
 package com.pacifi.app;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pacifi.app.ui.home.HomeFragment;
+import com.pacifi.app.ui.home.HomeViewModel;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,23 +23,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyInterface {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    DrawerLayout drawer;
+    Toolbar toolbar;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_actividad, R.id.configuracionListaCurso, R.id.configuracionListaEstudiante, R.id.asistenciaFragment, R.id.reporteAsistenciaFragment)
                 .setDrawerLayout(drawer)
@@ -48,7 +61,35 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+
     }
+
+    @Override
+    public void lockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        toolbar.setNavigationIcon(null);
+    }
+
+    @Override
+    public void unlockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+//        toolbar = findViewById(R.id.toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+
+
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_actividad, R.id.configuracionListaCurso, R.id.configuracionListaEstudiante, R.id.asistenciaFragment, R.id.reporteAsistenciaFragment)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
